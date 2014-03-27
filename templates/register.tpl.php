@@ -1,5 +1,7 @@
 <?php $this->includeTemplate($GLOBALS['top_include']); ?> 
 
+<?php if ($allowRegistration): ?>
+
 <p><?php echo sprintf(T_('Sign up here to create a free %s account. All the information requested below is required'), $GLOBALS['sitename']); ?>.</p>
 
 <form action="<?php echo $formaction; ?>" method="post">
@@ -52,5 +54,11 @@ $(function() {
                 });
 });
 </script>
+
+<?php else: ?>
+
+<p>Registration is closed.</p>
+
+<?php endif; ?>
 
 <?php $this->includeTemplate($GLOBALS['bottom_include']); ?>

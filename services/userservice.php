@@ -357,6 +357,14 @@ class UserService {
       return FALSE;
     }
 
+    function isRegistrationAllowed() {
+        if (isset($GLOBALS['registrationAllowed'])) {
+            return $GLOBALS['registrationAllowed'];
+        } else {
+            return TRUE;
+        }
+    }
+
     function isReserved($username) {
         if (in_array($username, $GLOBALS['reservedusers'])) {
             return true;

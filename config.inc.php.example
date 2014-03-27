@@ -79,6 +79,8 @@ $adminemail = 'admin@example.org';
 # tableprefix  : The table prefix used for this installation
 # cleanurls    : true   - Use mod_rewrite to hide PHP extensions
 #              : false  - Don't hide extensions [Default]
+# allowRegistration: true   - Registration page is open to anyone.
+#                  : false  - Registration is closed to new users.
 #
 # usecache     : true   - Cache pages when possible
 #                false  - Don't cache at all [Default]
@@ -112,6 +114,7 @@ $cookieprefix      = 'SCUTTLE';
 $tableprefix       = 'sc_';
 $adminemail        = 'admin@example.org';
 $cleanurls         = FALSE;
+$allowRegistration = TRUE;
 
 $usecache          = FALSE;
 $dir_cache         = dirname(__FILE__) .'/cache/';

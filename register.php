@@ -100,8 +100,9 @@ $token = md5(uniqid(rand(), TRUE));
 $_SESSION['token']      = $token;
 $_SESSION['token_time'] = time();
 
-$tplVars['loadjs']     = TRUE;
-$tplVars['subtitle']   = T_('Register');
-$tplVars['formaction'] = createURL('register');
-$tplVars['token']      = $token;
+$tplVars['loadjs']            = TRUE;
+$tplVars['subtitle']          = T_('Register');
+$tplVars['formaction']        = createURL('register');
+$tplVars['token']             = $token;
+$tplVars['allowRegistration'] = $UserService->isRegistrationAllowed();
 $templateservice->loadTemplate('register.tpl', $tplVars);
