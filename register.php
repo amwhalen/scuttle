@@ -104,5 +104,5 @@ $tplVars['loadjs']            = TRUE;
 $tplVars['subtitle']          = T_('Register');
 $tplVars['formaction']        = createURL('register');
 $tplVars['token']             = $token;
-$tplVars['allowRegistration'] = $UserService->isRegistrationAllowed();
+$tplVars['allowRegistration'] = $userservice->isRegistrationAllowed();
 $templateservice->loadTemplate('register.tpl', $tplVars);
