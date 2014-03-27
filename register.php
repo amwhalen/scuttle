@@ -37,8 +37,13 @@ if ($_POST['submitted']) {
       $tplVars['error'] = T_('Form could not be authenticated. Please try again.');
     }
 
+    // Check if registration is open
+    if (!$userservice->isRegistrationAllowed()) {
+      $tplVars['error'] = T_('Registration is closed.');
+    }
+
     // Check elapsed time
-    if (!isset($_SESSION['token_time']) || time() - $_SESSION['token_time'] < 1) {
+    elseif (!isset($_SESSION['token_time']) || time() - $_SESSION['token_time'] < 1) {
       $tplVars['error'] = T_('Form was submitted too quickly. Please wait before trying again.');
     }
 
