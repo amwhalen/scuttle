@@ -157,6 +157,30 @@ class TagService {
         return $tags;
     }
 
+    function &getTagsLike($term, $userid = NULL) {
+        $userservice =& ServiceFactory::getServiceInstance('UserService');
+        $logged_on_user = $userservice->getCurrentUserId();
+
+        $query = 'SELECT T.tag, COUNT(B.bId) AS bCount FROM '. $GLOBALS['tableprefix'] .'bookmarks AS B INNER JOIN '. $userservice->getTableName() .' AS U ON B.uId = U.'. $userservice->getFieldName('primary') .' INNER JOIN '. $GLOBALS['tableprefix'] .'tags AS T ON B.bId = T.bId';
+
+        $conditions = array();
+        if (!is_null($userid)) {
+            $conditions['U.'. $userservice->getFieldName('primary')] = intval($userid);
+            if ($logged_on_user != $userid)
+                $conditions['B.bStatus'] = 0;
+        } else {
+            $conditions['B.bStatus'] = 0;
+        }
+
+        $query .= ' WHERE '. $this->db->sql_build_array('SELECT', $conditions) .' AND T.tag LIKE "%' . $this->db->sql_escape($term) . '%" AND LEFT(T.tag, 7) <> "system:" GROUP BY T.tag ORDER BY bCount DESC, tag';
+
+        if (!($dbresult =& $this->db->sql_query($query))) {
+            message_die(GENERAL_ERROR, 'Could not get tags', '', __LINE__, __FILE__, $query, $this->db);
+            return false;
+        }
+        return $this->db->sql_fetchrowset($dbresult);
+    }
+
     function &getTags($userid = NULL) {
         $userservice =& ServiceFactory::getServiceInstance('UserService');
         $logged_on_user = $userservice->getCurrentUserId();

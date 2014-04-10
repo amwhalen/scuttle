@@ -6,6 +6,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="icon" type="image/png" href="<?php echo $GLOBALS['root']; ?>icon.png" />
     <link rel="stylesheet" type="text/css" href="<?php echo $GLOBALS['root']; ?>scuttle.css" />
+    <link rel="stylesheet" type="text/css" href="<?php echo $GLOBALS['root']; ?>includes/aehlke-tag-it/css/jquery.tagit.css" />
+    <link rel="stylesheet" type="text/css" href="<?php echo $GLOBALS['root']; ?>includes/aehlke-tag-it/css/tagit.ui-zendesk.css" />
     <?php
     $size = count($rsschannels);
     for ($i = 0; $i < $size; $i++) {
@@ -13,7 +15,9 @@
     }
     ?>
     <?php if ($loadjs): ?>
-      <script type="text/javascript" src="<?php echo $GLOBALS['root']; ?>includes/jquery-1.4.4.min.js"></script>
+      <script type="text/javascript" src="<?php echo $GLOBALS['root']; ?>includes/jquery-1.11.0.min.js"></script>
+      <script type="text/javascript" src="<?php echo $GLOBALS['root']; ?>includes/jquery-ui-1.10.4.min.js"></script>
+      <script type="text/javascript" src="<?php echo $GLOBALS['root']; ?>includes/aehlke-tag-it/js/tag-it.min.js"></script>
       <script type="text/javascript" src="<?php echo $GLOBALS['root']; ?>jsScuttle.php"></script>
     <?php endif; ?>
 </head>

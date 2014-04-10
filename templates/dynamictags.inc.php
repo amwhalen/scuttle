@@ -31,69 +31,48 @@ if ($userPopularTagsCount > 0) {
 ?>
 
 <script type="text/javascript">
-Array.prototype.contains = function (ele) {
-    for (var i = 0; i < this.length; i++) {
-        if (this[i] == ele) {
-            return true;
-        }
-    }
-    return false;
-};
 
-Array.prototype.remove = function (ele) {
-    var arr = new Array();
-    var count = 0;
-    for (var i = 0; i < this.length; i++) {
-        if (this[i] != ele) {
-            arr[count] = this[i];
-            count++;
+$(function(){
+    /**
+     * Sets up the Tag-It! plugin for autocompletion and tag styling
+     */
+    $("#tags").tagit({
+        autocomplete: {'source': "<?php echo $GLOBALS['root']; ?>api/tags/search"},
+        afterTagRemoved: function(event, ui) {
+            // deselect the tag in the popular tags list
+            // remove the 'x' at the end of the tag
+            tagLabel = ui.tag.text();
+            tagLabel = tagLabel.substring(0, tagLabel.length - 1);
+            $("#popularTags span:contains("+tagLabel+")").removeClass('selected').addClass("unselected");
         }
-    }
-    return arr;
-};
+    });
 
-function addonload(addition) {
-    var existing = window.onload;
-    window.onload = function () {
-        existing();
-        addition();
-    }
-}
-
-addonload(
-    function () {
-        var taglist = document.getElementById('tags');
-        var tags = taglist.value.split(', ');
-        
-        var populartags = document.getElementById('popularTags').getElementsByTagName('span');
-        
-        for (var i = 0; i < populartags.length; i++) {
-            if (tags.contains(populartags[i].innerHTML)) {
-                populartags[i].className = 'selected';
-            }
+    /**
+     * If this is an existing bookmark, highlight any popular tags that are already used
+     */
+    var tags = $("#tags").tagit("assignedTags");
+    $("#popularTags span").each(function() {
+        pTag = $(this).text();
+        if ($.inArray(pTag, tags) > -1) {
+            $(this).addClass('selected').removeClass("unselected");
         }
-    }
-);
+    });
+});
 
 function addTag(ele) {
-    var thisTag = ele.innerHTML;
-    var taglist = document.getElementById('tags');
-    var tags = taglist.value.split(', ');
+    var e = $(ele);
+    var thisTag = e.text();
     
     // If tag is already listed, remove it
-    if (tags.contains(thisTag)) {
-        tags = tags.remove(thisTag);
-        ele.className = 'unselected';
-        
-    // Otherwise add it
+    if ($.inArray(thisTag, $("#tags").tagit("assignedTags")) > -1) {
+        $("#tags").tagit("removeTagByLabel", thisTag);
+        e.removeClass('selected').addClass("unselected")
     } else {
-        tags.splice(0, 0, thisTag);
-        ele.className = 'selected';
+        $("#tags").tagit("createTag", thisTag);
+        e.addClass('selected').removeClass("unselected")
     }
     
-    taglist.value = tags.join(', ');
-    
-    document.getElementById('tags').focus();
+    $("#tags").focus();
 }
 
 document.write('<div class="collapsible">');

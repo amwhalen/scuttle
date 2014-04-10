@@ -1,5 +1,6 @@
 RewriteEngine On
 RewriteRule ^tags/get tags_get.php
+RewriteRule ^tags/search tags_search.php
 RewriteRule ^posts/dates posts_dates.php
 RewriteRule ^posts/get posts_get.php
 RewriteRule ^posts/recent posts_recent.php
