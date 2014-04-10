@@ -38,6 +38,13 @@ $(function(){
      */
     $("#tags").tagit({
         autocomplete: {'source': "<?php echo $GLOBALS['root']; ?>api/tags/search"},
+        afterTagAdded: function(event, ui) {
+            // select the tag in the popular tags list
+            // remove the 'x' at the end of the tag
+            tagLabel = ui.tag.text();
+            tagLabel = tagLabel.substring(0, tagLabel.length - 1);
+            $("#popularTags span:contains("+tagLabel+")").removeClass('unselected').addClass("selected");
+        },
         afterTagRemoved: function(event, ui) {
             // deselect the tag in the popular tags list
             // remove the 'x' at the end of the tag
